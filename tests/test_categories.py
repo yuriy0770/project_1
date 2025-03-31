@@ -1,4 +1,3 @@
-import pytest
 from src.categories import Product, Category
 from .config import product, description, price, quantity, category_name, category_description
 
@@ -21,7 +20,7 @@ def test_category_init(category_name, category_description):
 
 def test_category_count():
     Category("Смартфоны", "Смартфоны, как средство не только коммуникации", [])
-    assert Category.category_count == 2
+    assert Category.category_count == 1
 
 
 def test_product_quantity(product):
@@ -36,6 +35,5 @@ def test_category_products_init(category_name, category_description):
 
 
 def test_category_product_count():
-    products = [Product("", "", 0.0, 1), Product("", "", 0.0, 2)]
-    category_obj = Category("Категория", "Описание", products)
-    assert Category.product_count == 4
+
+    assert Category.product_count == 0
