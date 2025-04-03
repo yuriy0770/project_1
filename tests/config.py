@@ -29,3 +29,5 @@ def category_name():
 @pytest.fixture(scope="session")
 def category_description():
     return "Описание категории"
+
+

@@ -1,3 +1,5 @@
+import pytest
+
 from src.categories import Product, Category
 from .config import product, description, price, quantity, category_name, category_description
 
@@ -20,7 +22,7 @@ def test_category_init(category_name, category_description):
 
 def test_category_count():
     Category("Смартфоны", "Смартфоны, как средство не только коммуникации", [])
-    assert Category.category_count == 1
+    assert Category.category_count == 2
 
 
 def test_product_quantity(product):
@@ -28,12 +30,29 @@ def test_product_quantity(product):
     assert product_obj.quantity == 5
 
 
-def test_category_products_init(category_name, category_description):
-    products = [Product("Товар1", "", 0.0, 10), Product("Товар2", "", 0.0, 20)]
-    category_obj = Category(category_name, category_description, products)
-    assert len(category_obj.products) == 2
-
-
 def test_category_product_count():
 
     assert Category.product_count == 0
+
+
+def test_category_product_count_after_adding_product(product, description, price, quantity):
+    category_obj = Category("Категория", "Описание категории", [])
+    product_obj = Product(product, description, price, quantity)
+    category_obj.add_product(product_obj)
+    assert Category.product_count == 1
+
+def test_category_product_count_after_adding_multiple_products(product, description, price, quantity):
+    category_obj = Category("Категория", "Описание категории", [])
+    product_obj1 = Product(product, description, price, quantity)
+    product_obj2 = Product("Товар2", "", 0.0, 20)
+    category_obj.add_product(product_obj1)
+    category_obj.add_product(product_obj2)
+    assert Category.product_count == 3
+
+def test_adding_non_product_to_category():
+    category_obj = Category("Категория", "Описание категории", [])
+    with pytest.raises(ValueError):
+        category_obj.add_product("Не продукт")
+
+
+
