@@ -32,16 +32,21 @@ def category_name():
 def category_description():
     return "Описание категории"
 
-@pytest.fixture()
-def category_str():
-    return Category("Смартфоны",
-        "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-                    ["iphone", "Smart"])
 
 @pytest.fixture()
 def product_str():
     return Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
 
+
 @pytest.fixture()
 def product_str2():
     return Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
+
+@pytest.fixture
+def category():
+    products = [
+        Product.new_product({"name": "Продукт 1", "price": 100.0, "quantity": 5}),
+        Product.new_product({"name": "Продукт 2", "price": 200.0, "quantity": 10})
+    ]
+    return Category("Категория", "Описание категории", products)

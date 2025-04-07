@@ -52,7 +52,10 @@ class Category:
         self.__products = products
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {len(self.__products)} шт."
+        quantity1 = 0
+        for i in self.__products:
+            quantity1 += i.quantity
+        return f"{self.name}, количество продуктов: {quantity1}"
 
     def add_product(self, product: Product):
         if isinstance(product, Product):
@@ -60,3 +63,8 @@ class Category:
             Category.product_count += 1
         else:
             raise ValueError("Нельзя добавить не продукт в категорию")
+
+    @property
+    def products(self):
+        pr = [f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт."f'' for i in self.__products]
+        return "\n".join(pr)
