@@ -10,12 +10,20 @@ class Product:
         self.price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
     @classmethod
     def new_product(cls, data: dict):
-        if 'name' not in data or 'price' not in data or 'quantity' not in data:
+        if "name" not in data or "price" not in data or "quantity" not in data:
             raise ValueError("Недостаточно параметров для создания продукта")
 
-        return cls(data['name'], data.get('description', ''), float(data['price']), int(data['quantity']))
+        return cls(
+            data["name"],
+            data.get("description", ""),
+            float(data["price"]),
+            int(data["quantity"]),
+        )
 
     @property
     def price(self):
@@ -28,21 +36,26 @@ class Product:
         else:
             self.__price = value
 
+    def __add__(self, other):
+        return self.__price * self.quantity + other.__price * other.quantity
 
 
 class Category:
     name: str
     description: str
     products: list[str]
-    category_count = 0
     product_count = 0
 
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
         self.__products = products
-        Category.category_count += 1
-        Category.product_count += len(self.products)
+
+    def __str__(self):
+        quantity1 = 0
+        for i in self.__products:
+            quantity1 += i.quantity
+        return f"{self.name}, количество продуктов: {quantity1}"
 
     def add_product(self, product: Product):
         if isinstance(product, Product):
@@ -53,6 +66,5 @@ class Category:
 
     @property
     def products(self):
-        product_list = [f'{product.name}, {product.price} руб. Остаток: {product.quantity} шт' for product in
-                        self.__products]
-        return '\n'.join(product_list)
+        pr = [f"{i.name}, {i.price} руб. Остаток: {i.quantity} шт."f'' for i in self.__products]
+        return "\n".join(pr)
